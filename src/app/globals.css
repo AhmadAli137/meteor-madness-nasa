@@ -1,26 +1,77 @@
-@import "tailwindcss";
+/* --- Cesium widgets (toolbar, help, timeline, etc.) --- */
+@import "/cesium/Widgets/widgets.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* --- Tailwind base --- */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* Layout sizing */
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  height: 100%;
+}
+body {
+  @apply bg-neutral-900 text-neutral-100;
+}
+
+/* The viewer container: fixed viewport area, prevents bleed & overlaps */
+.mm-view {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 80px); /* header ~80px */
+  min-height: 560px;
+  overflow: hidden;
+}
+
+/* Overlay panel that floats above Cesium */
+.mm-overlay {
+  position: absolute;
+  z-index: 50; /* above Cesium toolbars (~40) */
+  top: 14px;
+  left: 14px;
+  max-width: 92vw;
+}
+
+/* Ensure Cesium canvas fills its slot */
+.cesium-viewer,
+.cesium-widget,
+.cesium-viewer-cesiumWidgetContainer,
+.cesium-widget canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* Keep widgets above the canvas, but below your overlays */
+.cesium-viewer-toolbar {
+  z-index: 40;
+}
+.cesium-viewer-animationContainer,
+.cesium-viewer-timelineContainer {
+  z-index: 35;
+}
+
+/* OPTIONAL: hide credits line. Comment these three if you want to show them. */
+.cesium-widget-credits,
+.cesium-credit-text,
+.cesium-credit-logoContainer {
+  display: none !important;
+}
+
+/* Per-container widget toggles:
+   - Use `className="cesium-hide-widgets"` on the Globe container
+   - Use `className="cesium-show-widgets"` on the Lab container
+*/
+.cesium-hide-widgets .cesium-viewer-toolbar,
+.cesium-hide-widgets .cesium-viewer-animationContainer,
+.cesium-hide-widgets .cesium-viewer-timelineContainer,
+.cesium-hide-widgets .cesium-viewer-bottom {
+  display: none !important;
+}
+
+.cesium-show-widgets .cesium-viewer-toolbar,
+.cesium-show-widgets .cesium-viewer-animationContainer,
+.cesium-show-widgets .cesium-viewer-timelineContainer {
+  display: block !important;
 }
