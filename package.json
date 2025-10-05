@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "node scripts/copy-cesium.js",
     "start": "next start",
-    "lint": "eslint",
     "copy:cesium": "node scripts/copy-cesium.js"
   },
   "dependencies": {

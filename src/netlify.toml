@@ -1,0 +1,11 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+# Use the official Next.js plugin so routing/SSR/ISR work on Netlify
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# (Optional) lock Node version to match your local
+[build.environment]
+  NODE_VERSION = "20"

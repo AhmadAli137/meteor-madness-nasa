@@ -1,3 +1,4 @@
+// scripts/copy-cesium.js
 import { cp, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -14,8 +15,10 @@ async function run() {
     await cp(src, dest, { recursive: true, force: true });
     console.log(`[copy-cesium] Copied assets from: ${src}`);
   } catch (e) {
-    console.warn("[copy-cesium] WARNING: Could not find Cesium build to copy.", e?.message || e);
+    console.warn(
+      "[copy-cesium] WARNING: Could not find Cesium build to copy.",
+      e?.message || e
+    );
   }
 }
-
 run();
