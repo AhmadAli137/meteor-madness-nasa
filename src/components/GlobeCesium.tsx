@@ -51,8 +51,6 @@ export default function GlobeCesium({
         } = Cesium;
 
         (window as any).CESIUM_BASE_URL = "/cesium";
-        const ionToken = process.env.NEXT_PUBLIC_CESIUM_ION_TOKEN;
-        if (ionToken) Ion.defaultAccessToken = ionToken;
 
         // Terrain + imagery
         let terrain: any = new EllipsoidTerrainProvider();
@@ -62,18 +60,6 @@ export default function GlobeCesium({
           maximumLevel: 19,
           credit: "© OpenStreetMap contributors",
         });
-        if (ionToken) {
-          try {
-            terrain = await createWorldTerrainAsync();
-          } catch {
-            terrain = new EllipsoidTerrainProvider();
-          }
-          try {
-            imagery = await createWorldImageryAsync({
-              style: IonWorldImageryStyle.AERIAL_WITH_LABELS,
-            });
-          } catch {}
-        }
 
         const host = containerRef.current;
         if (!host || disposed) return;
@@ -113,7 +99,7 @@ export default function GlobeCesium({
           destination: Cartesian3.fromDegrees(-95, 20, 2.2e7),
         });
 
-        if (ionToken && showBuildings) {
+        if (showBuildings) {
           try {
             const buildings = await createOsmBuildingsAsync();
             viewer.scene.primitives.add(buildings);
